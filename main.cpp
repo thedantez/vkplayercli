@@ -27,6 +27,7 @@ std::string get_token_from_config() {
     }
     return "";
 }
+
 int main() {
     std::string my_token = get_token_from_config();
     if (my_token.empty()) {
@@ -34,6 +35,7 @@ int main() {
         return 1;
     }
     std::string my_id = "587259366";
+    std::string my_id = get_id_from_env();
 	std::string music_raw = send_request("audio.get", "count=15&https=1", my_token);
     std::vector<Track> playlist = parse_music_list(music_raw);
     // std::cout << send_request("audio.getPlaylists", "owner_id=587259366&count=10&https=1", my_token); //debug
