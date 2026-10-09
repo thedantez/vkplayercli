@@ -13,7 +13,7 @@ void restore_terminal_mode() {
 	tcgetattr(STDIN_FILENO, &t);
 	t.c_lflag |= (ICANON | ECHO);
 	tcsetattr(STDIN_FILENO, TCSANOW, &t);
-	
+
 	int flags = fcntl(STDIN_FILENO, F_GETFL);
 	fcntl(STDIN_FILENO, F_SETFL, flags & ~O_NONBLOCK);
 }
@@ -57,7 +57,7 @@ void PlayerUI::draw_header(const std::string& title) {
 
 void PlayerUI::draw_tracks(const std::vector<Track>& playlist, int current_idx) {
 	clear_console();
-	std::cout << "\n---------------------------------\n| VK TUI PLAYER [Thinkpad T480] |\n---------------------------------\n";
+	std::cout << "\n---------------------------------\n| VK TUI PLAYER |\n-------------------------------------------------\n";
 	draw_header(current_playlist_title);
 	int start = std::max(0, current_idx - 5);
 	int end = std::min((int)playlist.size(), start + 15);
@@ -88,7 +88,7 @@ void PlayerUI::draw_playlists(const std::vector<Playlist>& playlists, int curren
 	}
 	std::cout << "\n[j/k]: nav | [enter]: playing | [space]: pause | [s]: shuffle | [p]: >playlist | [q]: quit\n";
 	std::cout << "\nloaded: " << playlists.size() << " playlists\n";
-	std::cout << "\n[debug] idx: " << current_idx << " | total: " << playlists.size() << '\n';	
+	std::cout << "\n[debug] idx: " << current_idx << " | total: " << playlists.size() << '\n';
 }
 
 std::vector<Track> PlayerUI::get_all_tracks(const std::string& token) {
@@ -133,7 +133,7 @@ void PlayerUI::run(const std::vector<Track>& initial_playlist, const std::string
 	bool running = true;
 	bool need_redraw = true;
 	int offset = initial_playlist.size();
-	
+
 	std::random_device rd;
 	std::mt19937 g(rd());
 
@@ -188,7 +188,7 @@ void PlayerUI::run(const std::vector<Track>& initial_playlist, const std::string
 
 		if (c != 0) {
 			need_redraw = true;
-		
+
 			switch (c) {
 				case 's':
 					save_playlist(current_playlist);
@@ -273,7 +273,7 @@ void PlayerUI::run(const std::vector<Track>& initial_playlist, const std::string
 					}
 
 					std::shuffle(current_playlist.begin(), current_playlist.end(), g);
-					
+
 					if (!current_url.empty()) {
 						for (size_t i = 0; i < current_playlist.size(); ++i) {
 							if (current_playlist[i].url == current_url) {
